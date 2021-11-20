@@ -1,42 +1,34 @@
-#include <avr/interrupt.h>
-#include <inttypes.h>
+/*	Definir el macro que calcula los ticks en base
+	a al parametro de frecuencia (f). */
+#define TICKS(f) ??
 
-static volatile uint8_t SecFlag;
-
-void Timer0_Ini ( void )
-{
-    TCNT0=0x06; /* Inicializar valor para el timer0 */
-    TCCR0A=0x00; /* inicializa timer0 en modo 0 (normal) */
-    /* Inicializar con fuente de osc. Int. */
-    TCCR0B=0x03; /* con Prescalador 64 */
-    TIMSK0=0x01; /* habilita interrupcion del Timer0 */
-    sei(); /* habilita interrupciones (global) */
-}
-uint8_t Timer0_SecFlag ( void )
-{
-    if( SecFlag )
-    {
-        SecFlag=0;
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-ISR (TIMER0_OVF_vect)
-{ /* TIMER0_OVF_vect */
-    static uint16_t mSecCnt;
-    TCNT0+=0x06; /* reinicializar Timer0 sin perder conteo */
-    mSecCnt++; /* Incrementa contador de milisegundos */
-    if( mSecCnt==1000 )
-    {
-        mSecCnt=0;
-        SecFlag=1; /* Bandera de Segundos */
-    }
+void Timer0_Ini ( void ){
+	/* 	Permanece igual, ocasionando una interrupción 
+		cada 1 ms en modo CTC. */
 }
 
-void Timer2_Gen_Tone(uint16_t tone, uint8_t volume)
+ISR(_vect_){ 
+	/* 	Código para actualizar bandera de segundos */
+
+	/*	Agregar las instrucciones necesarias para reproducir
+		la siguiente nota en el arreglo dependiendo de la duración, 
+		e insertar los silencios entre cada nota. */
+}
+
+void Timer2_Freq_Gen(uint8_t ticks){
+	/* 	Si "ticks" es mayor que 0 entonces, inicializa y habilita el Generador 
+		de Frecuencia del Timer2 con el tope dado por "ticks".
+		De lo contrario se requiere deshabilitar el Generador, generando de 
+		esta forma el silencio (0 lógico). */
+}
+
+void Timer2_Play(const struct note song[],unsigned int len)
 {
-    return;
+	/*	Función que establece las condiciones necesarias para que
+		el generador recorra el arreglo de notas. */
+}
+
+void Timer2_Volume(int8_t direction){
+	/* 	Ajusta el ciclo de trabajo para incrementar o decrementar  el volumen
+	   	de las notas que se estan generando. */
 }

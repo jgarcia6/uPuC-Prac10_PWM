@@ -1,2 +1,2 @@
 # uPuC-Prac10
-AVR-GCC. PWM and ADC
+AVR-GCC. PWM with variable Frequency.
